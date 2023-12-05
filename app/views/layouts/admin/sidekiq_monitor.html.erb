@@ -1,0 +1,6 @@
+<%= render partial: 'admin/sidekiq_monitor' %>
+<div class="blank_slate_container">
+  <div class="blank_slate">
+    <%= Sidekiq::Web.new.render %>
+  </div>
+</div>

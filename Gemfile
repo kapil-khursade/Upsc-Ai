@@ -27,6 +27,7 @@ gem "activeadmin_addons"
 gem 'cancancan'
 gem 'active_admin_flat_skin'
 gem 'font-awesome-rails'
+gem 'sidekiq'
 
 
 group :development, :test do
