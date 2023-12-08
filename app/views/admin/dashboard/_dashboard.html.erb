@@ -1,0 +1,29 @@
+<div class="isolated_bs">
+    <div class="card">
+        <div class="card-body">
+            <div class="container">
+                <div class="row mb-3">
+                    <div class="col-md-3">
+                        <strong>Token Balanced: <%= current_user.user_plan.balanced_token %></strong>
+                    </div>
+                    <div class="col-md-3">
+                        <strong>Consumed Token: <%= current_user.answer.sum(:charged_token) %></strong>
+                    </div>
+                    <% if current_user.user_plan.balanced_token <= 0 %>
+                    <div class="col-md-6 alert alert-danger" role="alert">
+                            You Don't Have Enough Tokens To Generate Answers😔
+                    </div>
+                    <% end %>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-3">
+                        <strong>Questions: <%= current_user.question.count %></strong>
+                    </div>
+                    <div class="col-md-3">
+                        <strong>Answer: <%= current_user.answer.count %></strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

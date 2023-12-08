@@ -1,0 +1,39 @@
+<div class="isolated_bs">
+    <div class="card mb-3">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <strong style="font-size: 18px;">Q: <%= @question.question %></strong>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 text-center">
+                    <span class="badge rounded-pill bg-primary"><%= @question.paper.name %></span>
+                </div>
+                <div class="col-md-8 text-right">
+                    <% @question.keyword.each do |key| %>
+                      <span class="badge rounded-pill bg-secondary"><%= key.keyword %></span>
+                    <% end %>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%# Answerrs %>
+    <% @question.answer.each do |ans| %>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    Ans:<p style="font-size: 14px;"> <%= raw ans.answer.to_s %></p>
+                </div>
+                <div class="col-md-12">
+                     <span class="badge rounded-pill bg-secondary">Charged Token: <%= ans.charged_token %></span>
+                </div>
+            </div>
+        </div>
+    </div>
+            
+    <% end %>
+</div>

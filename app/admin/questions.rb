@@ -13,6 +13,7 @@ ActiveAdmin.register Question do
     column "Key Words" do |question|
       question.keyword.pluck(:keyword).uniq.join(" ")
     end
+    column :admin_user
     actions
   end
 
@@ -21,20 +22,12 @@ ActiveAdmin.register Question do
       f.input :question
       f.input :paper
       f.input :comma_separated_keywords
-      f.input :admin_user_id, as: :hidden, input_html: { value: current_admin_user.id }
+      f.input :admin_user_auth_token, as: :hidden, input_html: { value: current_admin_user.auth_token }
     end
     f.actions
   end
 
-  controller do
-    def create
-      super do |success, failure|
-        failure.html do
-          # Check for validation errors and set the flash alert
-          flash[:alert] = resource.errors.full_messages.join(', ') if resource.errors.any?
-          redirect_to collection_path
-        end
-      end
-    end
+  show do
+    render "show", locals: { question: question }
   end
 end

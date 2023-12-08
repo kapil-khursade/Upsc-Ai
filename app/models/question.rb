@@ -2,14 +2,22 @@ class Question < ApplicationRecord
    belongs_to :admin_user
    belongs_to :paper
    has_many :keyword
+   has_many :answer
 
    after_create :create_keywords
+   validate :check_token_balance, on: :create
+
+   def check_token_balance
+      if self.admin_user.user_plan.balanced_token <= 0
+        errors.add(:base, "Not enough tokens to generate the answer")
+      end
+   end
 
    def create_keywords
       self.comma_separated_keywords.split(",").each do |key|
         Keyword.create(keyword: key, admin_user: self.admin_user, question: self, paper: self.paper)
       end
-      generate_the_answer
+     generate_the_answer
    end
 
    def generate_the_answer
