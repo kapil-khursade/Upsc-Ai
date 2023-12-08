@@ -13,6 +13,8 @@ class Question < ApplicationRecord
    end
 
    def generate_the_answer
-      GetAnswerJob.perform_async(self.id)
+      if self.admin_user.user_plan.balanced_token > 0
+         GetAnswerJob.perform_async(self.id)
+      end
    end
 end

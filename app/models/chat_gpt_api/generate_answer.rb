@@ -2,7 +2,7 @@ class ChatGptApi::GenerateAnswer
 
   def initialize(question)
     @question = question
-    generate_the_answer
+    # generate_the_answer
   end
 
   def generate_the_answer
@@ -18,7 +18,7 @@ class ChatGptApi::GenerateAnswer
 
   def json_body
     the_hash = {
-      question: @question.question,
+      question: @question.question.gsub(/['‘’]/, '').gsub("–", " "),
       keyword_array: @question.keyword.pluck(:keyword).uniq,
       paper: @question.paper.name,
     }

@@ -8,8 +8,12 @@ class GetAnswerJob
   def perform_get_answer_job
     api = ChatGptApi::GenerateAnswer.new(@question)
     @answer = api.generate_the_answer
+    puts @answer
+    puts "Creating Answer"
     if @answer["answer"].present? && @answer["usage"].present?
       create_answer_entry
+    else
+      puts @answer
     end
   end
 

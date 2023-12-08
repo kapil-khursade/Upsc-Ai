@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_12_05_152653) do
+ActiveRecord::Schema[7.1].define(version: 2023_12_07_110350) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -36,6 +36,8 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_05_152653) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "auth_token"
+    t.integer "role"
     t.index ["email"], name: "index_admin_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
@@ -83,6 +85,14 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_05_152653) do
     t.index ["paper_id"], name: "index_questions_on_paper_id"
   end
 
+  create_table "user_plans", force: :cascade do |t|
+    t.bigint "admin_user_id"
+    t.integer "balanced_token"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["admin_user_id"], name: "index_user_plans_on_admin_user_id"
+  end
+
   add_foreign_key "answers", "admin_users"
   add_foreign_key "answers", "papers"
   add_foreign_key "answers", "questions"
@@ -91,4 +101,5 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_05_152653) do
   add_foreign_key "keywords", "questions"
   add_foreign_key "questions", "admin_users"
   add_foreign_key "questions", "papers"
+  add_foreign_key "user_plans", "admin_users"
 end

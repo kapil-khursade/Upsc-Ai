@@ -2,6 +2,7 @@ const api_key = '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';
 import OpenAI from "openai";
 const openai = new OpenAI({ apiKey: api_key });
 
+try{
 let params_json_encoded = process.argv[2];
 let jsonAsString = Buffer.from(params_json_encoded, "base64").toString("ascii");
 let queryObj = JSON.parse(jsonAsString);
@@ -20,8 +21,6 @@ const getFormattedQuery = () => {
 
     return formattedQuery;
 };
-
-// console.log(getFormattedQuery())
 
 (async () => {
     try {
@@ -42,3 +41,7 @@ const getFormattedQuery = () => {
         console.error('Error:', error.message || error);
     }
 })();
+
+}catch(error){
+    console.log(JSON.stringify({error: error.toString()}))
+}
