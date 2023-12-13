@@ -3,6 +3,7 @@
   "dependencies": {
     "@rails/webpacker": "5.4.4",
     "openai": "^4.20.1",
+    "parse-json": "^8.1.0",
     "webpack": "^4.46.0",
     "webpack-cli": "^3.3.12"
   },

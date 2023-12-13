@@ -3,6 +3,7 @@ class Question < ApplicationRecord
    belongs_to :paper
    has_many :keyword
    has_many :answer
+   has_many :answer_error
 
    after_create :create_keywords
    validate :check_token_balance, on: :create

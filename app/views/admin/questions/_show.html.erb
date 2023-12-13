@@ -18,15 +18,21 @@
             </div>
         </div>
     </div>
+    <% @answer_error = @question.answer_error.where.not(status: "Solved").where("error_date_time > ?", (DateTime.now - 5.minutes)).order(:error_date_time).last %>
+    <% if !@answer_error.nil? %>
+    <div class="col-md-12 alert alert-danger" role="alert">
+         <%= @answer_error.status.humanize + " Retry Count: " + @answer_error.try_number.to_s %>
+    </div>
+    <% end %>
 
     <%# Answerrs %>
     <% @question.answer.each do |ans| %>
 
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-body">
-            <div class="row mb-3">
+            <div class="row">
                 <div class="col-md-12">
-                    Ans:<p style="font-size: 14px;"> <%= raw ans.answer.to_s %></p>
+                    Ans:<p class="text-justify" style="font-size: 14px;"> <%= raw ans.get_formated_answer %></p>
                 </div>
                 <div class="col-md-12">
                      <span class="badge rounded-pill bg-secondary">Charged Token: <%= ans.charged_token %></span>

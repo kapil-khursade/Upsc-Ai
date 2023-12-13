@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_12_07_110350) do
+ActiveRecord::Schema[7.1].define(version: 2023_12_13_161932) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -40,6 +40,18 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_07_110350) do
     t.integer "role"
     t.index ["email"], name: "index_admin_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
+  end
+
+  create_table "answer_errors", force: :cascade do |t|
+    t.bigint "question_id"
+    t.integer "status"
+    t.string "message"
+    t.integer "try_number"
+    t.string "querry_string"
+    t.datetime "error_date_time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["question_id"], name: "index_answer_errors_on_question_id"
   end
 
   create_table "answers", force: :cascade do |t|
@@ -93,6 +105,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_07_110350) do
     t.index ["admin_user_id"], name: "index_user_plans_on_admin_user_id"
   end
 
+  add_foreign_key "answer_errors", "questions"
   add_foreign_key "answers", "admin_users"
   add_foreign_key "answers", "papers"
   add_foreign_key "answers", "questions"

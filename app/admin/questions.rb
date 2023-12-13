@@ -28,6 +28,7 @@ ActiveAdmin.register Question do
   end
 
   show do
-    render "show", locals: { question: question }
+    render "show", locals: { question: question}
   end
+
 end

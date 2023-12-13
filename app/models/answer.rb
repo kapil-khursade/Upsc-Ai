@@ -10,4 +10,10 @@ class Answer < ApplicationRecord
     user_plan = self.admin_user.user_plan
     user_plan.update(balanced_token: user_plan.balanced_token - self.charged_token)
   end
+
+  def get_formated_answer
+    answer.gsub("Introduction:", "<strong>Introduction</strong></br>")
+    .gsub("Body:", "</br></br><strong>Body</strong></br>")
+    .gsub("Conclusion:", "</br></br><strong>Conclusion</strong></br>")
+  end
 end

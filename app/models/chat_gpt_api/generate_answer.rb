@@ -8,7 +8,7 @@ class ChatGptApi::GenerateAnswer
   def generate_the_answer
     command = "node #{Rails.root.join("chat_gpt_api", "generate_answer.js")} #{base_64_encoded_json_body}"
     response = `#{command}`
-    # puts command
+    puts command
     JSON.parse(response)
   end
 
@@ -18,7 +18,7 @@ class ChatGptApi::GenerateAnswer
 
   def json_body
     the_hash = {
-      question: @question.question.gsub(/['‘’]/, '').gsub("–", " "),
+      question: @question.question,
       keyword_array: @question.keyword.pluck(:keyword).uniq,
       paper: @question.paper.name,
     }
