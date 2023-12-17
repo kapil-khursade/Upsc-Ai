@@ -15,4 +15,7 @@ Rails.application.routes.draw do
   authenticate :admin_user, lambda { |u| u } do
     mount Sidekiq::Web => '/sidekiq'
   end
+
+  root to: "admin/dashboard#index"
+
 end

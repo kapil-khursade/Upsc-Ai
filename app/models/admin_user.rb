@@ -9,7 +9,7 @@ class AdminUser < ApplicationRecord
   validates :email, uniqueness: true
 
   devise :database_authenticatable,
-         :recoverable, :rememberable, :validatable
+         :recoverable, :rememberable, :validatable, :registerable, :confirmable
 
   after_create :set_up_the_admin_user
   before_create :generate_auth_token

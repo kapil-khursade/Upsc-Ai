@@ -1,0 +1,24 @@
+<div class="isolated_bs">
+  <div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-12 p-3">
+      <h2 class="mb-4">Resend confirmation instructions</h2>
+
+      <%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f| %>
+        <%= render 'admin_users/shared/error_messages', resource: resource %>
+
+        <div class="mb-3">
+          <%= f.label :email, class: 'form-label' %><br />
+          <%= f.email_field :email, class: 'form-control', autofocus: true, autocomplete: 'email', value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email) %>
+        </div>
+
+        <div class="d-grid mb-2">
+          <%= f.submit "Resend confirmation instructions" %>
+        </div>
+      <% end %>
+
+      <%= render 'admin_users/shared/links' %>
+    </div>
+  </div>
+</div>
+<div>  
