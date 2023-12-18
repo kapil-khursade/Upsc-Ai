@@ -5,6 +5,8 @@ class Question < ApplicationRecord
    has_many :answer
    has_many :answer_error
 
+   enum answer_generation_status: ["Generated", "Your Answer Generation Is In Progress", "Error"]
+
    after_create :create_keywords
    validate :check_token_balance, on: :create
 

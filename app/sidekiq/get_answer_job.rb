@@ -3,6 +3,7 @@ class GetAnswerJob
   def perform(question_id)
     @question = Question.find(question_id)
     @prev_error = @question.answer_error
+    @question.update({answer_generation_status: 1})
     perform_get_answer_job
   end
 
@@ -15,10 +16,12 @@ class GetAnswerJob
       #marking previous error solved
       @prev_error.update_all({status: 2})
       puts "Creating Answer"
+      @question.update({answer_generation_status: 0})
     else
       puts "Error Created"
       puts @answer["error"]
       create_answer_error_entry
+      @question.update({answer_generation_status: 2})
     end
   end
 
