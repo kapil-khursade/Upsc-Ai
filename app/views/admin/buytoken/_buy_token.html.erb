@@ -1,0 +1,215 @@
+<div class="isolated_bs">
+<style>
+.slidecontainer {
+  width: 100%; /* Width of the outside container */
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;  
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%; 
+  background: #E73C3C;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #04AA6D;
+  cursor: pointer;
+}
+
+</style>
+
+<div class="contentbar">
+   <div class="row">
+      <div class="col-md-12 col-lg-12 col-xl-12">
+         <div class="card m-b-30 rounded text-dark p-5">
+               <div class="row d-flex justify-content-center">
+                  <div class="col-md-12 text-center p-3">
+                     <strong>Buy The Token According To Your Requirement</strong>
+                  </div>
+               </div>
+
+               <div class="row">
+                    <div class="col-md-12 text-center mb-3">
+                        <h2>
+                            You Get
+                        <strong id="tokens_you_get">0</strong>
+                        Tokens For the Price of
+                        <strong id="for_the_price">0</strong>
+                        </h2>
+                    </div> 
+                    <div class="slidecontainer">
+                        <input type="range" min="0" max="100" value="0" class="slider" id="myRange">
+                    </div>
+                    <div class="mb-3 d-flex justify-content-between">
+                        <p>Min ₹ 0</p>
+                        <p>Max ₹ 500</p>
+                    </div>
+                    <div class="col-md-12 d-flex justify-content-center">
+                        <a id="buy_button"  type="button" class="btn btn-primary text-light" style="width: 150px;">Buy Tokens</a>
+                         <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+                    </div>    
+               </div>
+               
+         </div>
+      </div>
+   </div>
+</div>
+
+<div>
+
+<script>
+
+let slider = document.getElementById("myRange");
+let tokens_you_get = document.getElementById("tokens_you_get");
+let for_the_price = document.getElementById("for_the_price");
+let amount = 0;
+let tokens = 0; 
+
+// Display the default slider value
+tokens_you_get.innerHTML = slider.value;
+
+var options = { style: 'decimal', maximumFractionDigits: 0, minimumFractionDigits: 0 };
+
+// Update the current slider value (each time you drag the slider handle)
+slider.oninput = function() {
+  amount = this.value * 5;
+  let formattedPrice = amount.toLocaleString('en-IN', options);
+
+  tokens = this.value * 1250
+
+  for_the_price.innerHTML = `₹ ${formattedPrice}`;
+  tokens_you_get.innerHTML = (tokens).toLocaleString('en-IN', options);
+}
+
+//Razor Pay
+const createOrder = async (amount, tokens) => {
+  if (amount === 0 || amount === null) {
+    return {error: 'Selected Amount is Zero'};
+  }
+
+  return new Promise((resolve, reject) => {
+    var settings = {
+      "url": "<%= internal_api_create_order_index_path %>",
+      "method": "POST",
+      "timeout": 0,
+      "headers": {
+        "Content-Type": "application/json",
+      },
+      "data": JSON.stringify({
+        "authenticity_token": "<%= form_authenticity_token %>",
+        "amount": amount,
+        "tokens": tokens,
+      }),
+    };
+
+    $.ajax(settings)
+      .done(function (response) {
+        resolve(response); 
+      })
+      .fail(function (error) {
+        reject(error); 
+      });
+  });
+};
+
+const updatePaymentDetails = async (order, response, status) => {
+   return new Promise((resolve, reject) => {
+      var settings = {
+         "url": `<%= internal_api_update_payment_index_path %>`,
+         "method": "POST",
+         "timeout": 0,
+         "headers": {
+         "Content-Type": "application/json",
+         },
+         "data": JSON.stringify({
+         "authenticity_token": "<%= form_authenticity_token %>",
+         "id": order.id,
+         "order_id": order.order_id,
+         "payment_id": response.razorpay_payment_id,
+         "signature" : response.razorpay_signature,
+         "status" : status
+         }),
+      };
+
+      $.ajax(settings)
+      .done(function (response) {
+        resolve(response); 
+      })
+      .fail(function (error) {
+        reject({error: error.toString()}); 
+      });
+   })
+}
+
+
+document.getElementById('buy_button').onclick = async (e) => {
+
+  document.getElementById('buy_button').disabled = true;
+    try{
+      const order = await createOrder(amount, tokens);
+
+      // console.log("This is the order")
+      // console.log(JSON.stringify(order, null, 2));
+
+      if(order.error){
+         alert(order.error)
+         return;
+      }
+
+        var options = {
+        "key": "rzp_test_j36U9aD1TuJltv", 
+        "amount": Number(amount) * 100, 
+        "currency": "INR",
+        "name": "UPSC AI",
+        "description": "Test Transaction",
+        "image": "https://i.ibb.co/gF67Ccq/upscailogo.png",
+        "order_id": order.order_id, 
+        "handler": function async(response){
+          updatePaymentDetails(order, response, "SUCCESS");
+          location.replace('<%= admin_dashboard_path %>');
+        },
+        "notes": {
+          "address": "Razorpay Corporate Office"
+        },
+        "theme": {
+          "color": "#3359cc"
+        }
+        };
+
+        let rzp1 = new Razorpay(options);
+
+        rzp1.on('payment.failed', function (response){
+              updatePaymentDetails(order, response, "FAILED")
+        });
+        rzp1.open();
+        e.preventDefault();
+          
+      } catch (error) {
+          document.getElementById('buy_button').disabled = false;
+          console.log(JSON.stringify(error, null, 2))
+          // alert(`Something went wrong ${error}`)
+      }
+
+}
+//https://i.ibb.co/gF67Ccq/upscailogo.png 
+//https://i.ibb.co/TwmZbW3/upscailogolong.png
+</script>
+

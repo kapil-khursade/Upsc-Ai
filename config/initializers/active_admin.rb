@@ -1,6 +1,7 @@
 ActiveAdmin.setup do |config|
   config.site_title = "UPSC AI"
   config.site_title_image = "/upscailogoshot.png"
+  config.footer = "UPSC AI v0.1"
   config.authentication_method = :authenticate_admin_user!
   config.authorization_adapter = ActiveAdmin::CanCanAdapter
   config.current_user_method = :current_admin_user

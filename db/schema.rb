@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_12_18_154124) do
+ActiveRecord::Schema[7.1].define(version: 2023_12_20_173049) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -90,6 +90,20 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_18_154124) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "payment_details", force: :cascade do |t|
+    t.string "order_id"
+    t.string "payment_id"
+    t.string "signature"
+    t.date "date"
+    t.float "amount"
+    t.integer "tokens"
+    t.integer "status", default: 0
+    t.bigint "admin_user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["admin_user_id"], name: "index_payment_details_on_admin_user_id"
+  end
+
   create_table "questions", force: :cascade do |t|
     t.string "question", limit: 200
     t.bigint "admin_user_id"
@@ -117,6 +131,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_18_154124) do
   add_foreign_key "keywords", "admin_users"
   add_foreign_key "keywords", "papers"
   add_foreign_key "keywords", "questions"
+  add_foreign_key "payment_details", "admin_users"
   add_foreign_key "questions", "admin_users"
   add_foreign_key "questions", "papers"
   add_foreign_key "user_plans", "admin_users"

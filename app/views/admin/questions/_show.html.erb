@@ -40,16 +40,16 @@
     <%# Answerrs %>
     <% @question.answer.each do |ans| %>
 
-    <div class="card mb-3 bgimg">
+    <div class="card mb-3 bgimg" style="height: 1200px">
         <div class="card-body">
-            <div class="row d-flex justify-content-center" >
-                <div class="col-md-8">
-                    <p class="text-justify text-dark" style="font-size: 14px;"> <%= raw ans.get_formated_answer %></p>
-                </div>
-                <div class="col-md-12">
-                     <span class="badge rounded-pill bg-secondary">Charged Token: <%= ans.charged_token %></span>
+            <div class="row d-flex justify-content-center pt-4" >
+                <div class="col-md-8 mt-5">
+                    <p class="text-justify text-dark" style="font-size: 135%;"> <%= raw ans.get_formated_answer %></p>
                 </div>
             </div>
+        </div>
+        <div class="col-md-12">
+            <span class="badge rounded-pill bg-secondary">Charged Token: <%= ans.charged_token %></span>
         </div>
     </div>
             

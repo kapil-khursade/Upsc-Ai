@@ -16,6 +16,11 @@ Rails.application.routes.draw do
     mount Sidekiq::Web => '/sidekiq'
   end
 
+  namespace :internal_api do
+    resources :create_order, only: [:create]
+    resources :update_payment, only: [:create]
+  end
+
   root to: "admin/dashboard#index"
 
 end

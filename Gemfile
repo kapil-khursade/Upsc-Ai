@@ -27,7 +27,10 @@ gem "activeadmin_addons"
 gem 'cancancan'
 gem 'active_admin_flat_skin'
 gem 'font-awesome-rails'
+# gem 'active_skin'
+# gem 'arctic_admin'
 gem 'sidekiq'
+gem 'razorpay'
 
 
 group :development, :test do
