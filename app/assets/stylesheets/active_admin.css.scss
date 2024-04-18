@@ -13,10 +13,21 @@
 @import "isolated_bs";
 @import "coustom_ss.scss";
 
+$panelBorder: #babdc5;
+$skinActiveColor: #01212E;
+$bodyColor: rgba(236, 240, 241, 0.48);
+$skinBlack: rgb(55, 71, 79);
+$panelHeaderBck: $skinBlack;
+$skinBlackLight: rgb(69, 90, 100);
+$textGray: rgb(174, 179, 181);
+$skinTextColor: #1e2a33;
+$skinTextActiveColor: white;
+$skinTextTable: #7f8c8d;
+$skinHeaderBck: #1e2a33;
+
 
 // Overriding any non-variable Sass must be done after the fact.
 // For example, to change the default status-tag color:
 //.status_tag { background: #6090DB; }
 @import "active_admin_flat_skin";
 
-.site_title {background-color: #00FF00;}
