@@ -18,7 +18,7 @@ ActiveAdmin.setup do |config|
 
   config.register_stylesheet "https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css"
   config.register_javascript "https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"
-  config.register_stylesheet "/boostrap_invi.css"
+  # config.register_stylesheet "/boostrap_invi.css"
 
   config.register_javascript "https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"
   config.register_stylesheet "https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css"

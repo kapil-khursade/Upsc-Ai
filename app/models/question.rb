@@ -7,7 +7,7 @@ class Question < ApplicationRecord
 
    enum answer_generation_status: ["Generated", "Your Answer Generation Is In Progress", "Error"]
 
-   after_create :create_keywords
+   after_create :generate_the_answer
    validate :check_token_balance, on: :create
 
    def check_token_balance
@@ -16,16 +16,24 @@ class Question < ApplicationRecord
       end
    end
 
-   def create_keywords
-      self.comma_separated_keywords.split(",").each do |key|
-        Keyword.create(keyword: key, admin_user: self.admin_user, question: self, paper: self.paper)
-      end
-     generate_the_answer
-   end
-
    def generate_the_answer
+      create_keywords
       if self.admin_user.user_plan.balanced_token > 0
          GetAnswerJob.perform_async(self.id)
       end
    end
+
+   def create_keywords
+      self.comma_separated_keywords.split(",").each do |key|
+        Keyword.create(keyword: key, admin_user: self.admin_user, question: self, paper: self.paper)
+      end
+   end
+
+   def only_generate_the_answer
+      if self.admin_user.user_plan.balanced_token > 0
+         GetAnswerJob.perform_async(self.id)
+      end
+   end
+
+
 end

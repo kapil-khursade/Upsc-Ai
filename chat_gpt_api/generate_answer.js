@@ -1,4 +1,5 @@
-const api_key = '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';
+//const api_key = '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';
+const api_key = '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';
 import OpenAI from "openai";
 const openai = new OpenAI({ apiKey: api_key });
 
@@ -17,7 +18,7 @@ const getFormattedQuery = () => {
         Words: 250
         Keywords: ${queryObj?.keyword_array?.join(' ')} 
 
-        Give examples. Follow Introduction 20% Body 60% and Conclusion 20% format of answer. Give Current Relevant. Give Future looking, solution providing positive conclusion.
+        Give examples. Follow Introduction 20% Body 60% and Conclusion 20% format of answer. Give Current Relevant. Give Future looking, solution providing positive conclusion. Giive me a response in form of rich text to innject it in html.erb template .
     `;
 
     return formattedQuery;
@@ -39,7 +40,7 @@ const getFormattedQuery = () => {
         console.log(JSON.stringify({answer: response.choices[0].message.content, usage: response.usage.total_tokens}, null, 2))
     } catch (error) {
         // Handle errors
-        console.error('Error:', error.message || error);
+        console.log(JSON.stringify({error: error.message || error}));
     }
 })();
 

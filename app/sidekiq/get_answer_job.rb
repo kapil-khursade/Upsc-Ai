@@ -9,7 +9,12 @@ class GetAnswerJob
 
   def perform_get_answer_job
     api = ChatGptApi::GenerateAnswer.new(@question)
-    @answer = api.generate_the_answer
+    begin
+      @answer = api.generate_the_answer
+    rescue => e
+      @answer = {"error" => e.to_s}
+    end
+
     puts @answer
     if @answer["answer"].present? && @answer["usage"].present?
       create_answer_entry
@@ -29,8 +34,8 @@ class GetAnswerJob
     answer_error = AnswerError.new({
         question: @question,
         status: 0,
-        message: @answer["error"].gsub("\u0000", ''),
-        querry_string: @answer["jsonAsString"].gsub("\u0000", ''),
+        message: @answer["error"].try(:gsub,"\u0000", ''),
+        querry_string: @answer["jsonAsString"].try(:gsub, "\u0000", ''),
         try_number: @prev_error.count,
         error_date_time: DateTime.now
       })

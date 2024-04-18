@@ -21,7 +21,7 @@
     <% @answer_error = @question.answer_error.where.not(status: "Solved").order(:error_date_time).last %>
     <% if !@answer_error.nil? && @question.answer_generation_status == "Error" %>
     <div class="col-md-12 alert alert-danger" role="alert">
-         <%= @answer_error.status.humanize + " Retry Count: " + @answer_error.try_number.to_s %>
+        Opps Something went wrong! <%= @answer_error.status.humanize %>
     </div>
     <% elsif @question.answer_generation_status == "Your Answer Generation Is In Progress" %>
     <div class="col-md-12 alert alert-warning" role="alert">
@@ -30,17 +30,21 @@
     <% end %>
 
     <style type="text/css">
+@media only screen and (min-width: 1200px) and (max-width: 1400px) {
     .bgimg {
         background-image: url('/upscsheetmain.png');
         background-repeat: no-repeat;
         background-position: center; 
+        height: 1200px;
     }
+}
+    
     </style>
 
     <%# Answerrs %>
     <% @question.answer.each do |ans| %>
 
-    <div class="card mb-3 bgimg" style="height: 1200px">
+    <div class="card mb-3 bgimg">
         <div class="card-body">
             <div class="row d-flex justify-content-center pt-4" >
                 <div class="col-md-8 mt-5">
