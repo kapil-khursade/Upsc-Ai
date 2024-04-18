@@ -11,6 +11,7 @@
 @import "active_admin/mixins";
 @import "active_admin/base";
 @import "isolated_bs";
+@import "coustom_ss.scss";
 
 
 // Overriding any non-variable Sass must be done after the fact.
@@ -18,3 +19,4 @@
 //.status_tag { background: #6090DB; }
 @import "active_admin_flat_skin";
 
+.site_title {background-color: #00FF00;}
