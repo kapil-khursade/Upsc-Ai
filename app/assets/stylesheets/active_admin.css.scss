@@ -25,6 +25,8 @@ $skinTextActiveColor: white;
 $skinTextTable: #7f8c8d;
 $skinHeaderBck: #1e2a33;
 
+.download_links { display: none}
+.col-created_at {text-wrap: nowrap}
 
 // Overriding any non-variable Sass must be done after the fact.
 // For example, to change the default status-tag color:

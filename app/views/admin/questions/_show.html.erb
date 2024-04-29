@@ -1,4 +1,19 @@
 <div class="isolated_bs">
+    <style type="text/css">
+        <% if current_admin_user.role != 'admin' %>
+             #admin_message {
+                display: none
+             }
+        <% end %>
+        @media only screen and (min-width: 1200px) and (max-width: 1400px) {
+            .bgimg {
+                background-image: url('/upscsheetmain.png');
+                background-repeat: no-repeat;
+                background-position: center; 
+                height: 1200px;
+            }
+        }
+    </style>
     <div class="card mb-3">
         <div class="card-body">
             <div class="row">
@@ -18,43 +33,5 @@
             </div>
         </div>
     </div>
-    <% @answer_error = @question.answer_error.where.not(status: "Solved").order(:error_date_time).last %>
-    <% if !@answer_error.nil? && @question.answer_generation_status == "Error" %>
-    <div class="col-md-12 alert alert-danger" role="alert">
-        Opps Something went wrong! <%= @answer_error.status.humanize %>
-    </div>
-    <% elsif @question.answer_generation_status == "Your Answer Generation Is In Progress" %>
-    <div class="col-md-12 alert alert-warning" role="alert">
-         <%= @question.answer_generation_status %>
-    </div>
-    <% end %>
-
-    <style type="text/css">
-        @media only screen and (min-width: 1200px) and (max-width: 1400px) {
-            .bgimg {
-                background-image: url('/upscsheetmain.png');
-                background-repeat: no-repeat;
-                background-position: center; 
-                height: 1200px;
-            }
-        }
-    </style>
-
-    <%# Answerrs %>
-    <% @question.answer.each do |ans| %>
-
-    <div class="card mb-3 bgimg">
-        <div class="card-body">
-            <div class="row d-flex justify-content-center pt-4" >
-                <div class="col-md-8 mt-5">
-                    <p class="text-justify text-dark" style="font-size: 135%;"> <%= raw ans.get_formated_answer %></p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-12">
-            <span class="badge rounded-pill bg-secondary">Charged Token: <%= ans.charged_token %></span>
-        </div>
-    </div>
-            
-    <% end %>
+    <%= @question.answer_status_html.html_safe %>
 </div>

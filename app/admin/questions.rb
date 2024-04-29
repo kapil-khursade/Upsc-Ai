@@ -8,12 +8,27 @@ ActiveAdmin.register Question do
     selectable_column if current_admin_user.role == "admin"
     column :question
     column "Paper" do |question|
-      question.paper.name
+      html = <<-HTML
+      <div class="isolated_bs">
+        <div class="col-md-4 text-center">
+          <span class="badge rounded-pill bg-primary">#{question.paper.name}</span>
+        </div>
+      </div>
+      HTML
+      html.html_safe
+    end
+    column "Created At" do |question|
+      question.created_at.strftime("%d %b %y")
     end
     column :admin_user if current_admin_user.role == "admin"
 
     column "Answer" do |question|
-      link_to "View", admin_question_path(question.id)
+      html = <<-HTML
+      <div class="isolated_bs">
+        <a class="btn btn-outline-secondary btn-sm" href="#{admin_question_path(question.id)}" role="button">view</a>
+      </div>
+      HTML
+      html.html_safe
     end
   end
 
