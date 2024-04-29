@@ -3,7 +3,6 @@ class GetAnswerJob
   def perform(question_id)
     @question = Question.find(question_id)
     @prev_error = @question.answer_error
-    @question.update({answer_generation_status: 1})
     perform_get_answer_job
   end
 

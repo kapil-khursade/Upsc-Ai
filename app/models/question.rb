@@ -1,9 +1,9 @@
 class Question < ApplicationRecord
    belongs_to :admin_user
    belongs_to :paper
-   has_many :keyword
-   has_many :answer
-   has_many :answer_error
+   has_many :keyword, dependent: :destroy
+   has_many :answer, dependent: :destroy
+   has_many :answer_error, dependent: :destroy
 
    enum answer_generation_status: ["Generated", "Your Answer Generation Is In Progress", "Error"]
 
@@ -17,6 +17,7 @@ class Question < ApplicationRecord
    end
 
    def generate_the_answer
+      self.update({answer_generation_status: 1})
       create_keywords
       if self.admin_user.user_plan.balanced_token > 0
          GetAnswerJob.perform_async(self.id)

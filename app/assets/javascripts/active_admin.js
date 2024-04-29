@@ -1,8 +1,10 @@
 //= require active_admin/base
 //= require active_admin_flat_skin
 
-//This is to refresh_status
 
+$(document).ready(function() {
+
+//This is to refresh_status  
 let progress_bars_to_update = [];
 
 $(".refresh_status").each(function () {
@@ -24,3 +26,5 @@ progress_bars_to_update.forEach(function (item) {
         });
       }, 5000);
 });
+});
+
