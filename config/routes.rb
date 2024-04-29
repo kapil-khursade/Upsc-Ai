@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   namespace :internal_api do
     resources :create_order, only: [:create]
     resources :update_payment, only: [:create]
+    resources :refresh_status, only: [:index]
   end
 
   root to: "admin/dashboard#index"

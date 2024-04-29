@@ -50,14 +50,14 @@ class Question < ApplicationRecord
                         </div>
                         HTML
         answer_html = <<-HTML
-                        <div class="col-md-12 alert alert-danger refresh_status" role="alert" the_id=#{id}>
+                        <div class="col-md-12 alert alert-danger refresh_status" role="alert" id=#{id}>
                            Opps Something went wrong! #{@answer_error.status.humanize}
                            #{admin_message}
                         </div>
                         HTML
       elsif answer_generation_status == "Your Answer Generation Is In Progress"
          answer_html = <<-HTML
-                        <div class="col-md-12 alert alert-warning refresh_status" role="alert" the_id=#{id}>
+                        <div class="col-md-12 alert alert-warning refresh_status" role="alert" id=#{id}>
                            #{answer_generation_status}
                         </div>
                      HTML
@@ -65,7 +65,7 @@ class Question < ApplicationRecord
          ans_str = ""
          answer.each do |ans|
 
-            ans_str +=  "<div class='card mb-3 bgimg'>
+            ans_str +=  "<div class='card mb-3 bgimg no_more_refresh'>
                               <div class='card-body'>
                                  <div class='row d-flex justify-content-center pt-4' >
                                        <div class='col-md-8 mt-5'>
