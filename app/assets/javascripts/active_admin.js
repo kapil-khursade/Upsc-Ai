@@ -6,19 +6,21 @@
 let progress_bars_to_update = [];
 
 $(".refresh_status").each(function () {
-    let the_class = "Question";
-    let the_id = $(this).attr("the_id");
-    let elementId = $(this).attr("id");
+    let the_id = $(this).attr("id");
     progress_bars_to_update.push({
-        class: the_class,
-        the_id: the_id,
-        el_id: elementId,
+        id: the_id,
     });
 });
 
 progress_bars_to_update.forEach(function (item) {
+    let theUrl = `/internal_api/refresh_status?id=${item.id}`;
 
-    let theUrl = `/backend_api/status_update/${item.the_id}?c=${item.class}`
-    alert(theUrl)
-
-})
+    let intervalId = setInterval(function () {
+        $.get(theUrl, function (data) {
+          $(`#answer_div`).html(data);
+          if (data.includes("no_more_refresh")) {
+            clearInterval(intervalId);
+          }
+        });
+      }, 5000);
+});
