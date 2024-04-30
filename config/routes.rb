@@ -22,6 +22,11 @@ Rails.application.routes.draw do
     resources :refresh_status, only: [:index]
   end
 
+  namespace :mobile_app_api do
+    resources :login, only: [:create]
+    resources :validate_auth_token, only: [:index]
+  end
+
   root to: "admin/dashboard#index"
 
 end

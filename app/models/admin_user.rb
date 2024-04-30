@@ -18,6 +18,9 @@ class AdminUser < ApplicationRecord
 
 
 
+   def generate_mobile_auth_token
+    self.mobile_app_auth_token = SecureRandom.hex(16)
+   end
 
    private
 
