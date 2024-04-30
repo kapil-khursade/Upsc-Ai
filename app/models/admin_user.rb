@@ -1,10 +1,10 @@
 class AdminUser < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  has_many :question
-  has_many :answer
-  has_many :keyword
-  has_one :user_plan
+  has_many :question, dependent: :destroy
+  has_many :answer, dependent: :destroy
+  has_many :keyword, dependent: :destroy
+  has_one :user_plan, dependent: :destroy
 
   validates :email, uniqueness: true
 

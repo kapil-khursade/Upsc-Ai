@@ -62,7 +62,7 @@ class Question < ApplicationRecord
                            #{answer_generation_status}
                         </div>
                      HTML
-      else
+      elsif answer_generation_status == "Generated"
          ans_str = ""
          answer.each do |ans|
 
@@ -79,7 +79,6 @@ class Question < ApplicationRecord
                               </div>
                            </div>"
          end
-         puts ans_str
          answer_html = <<-HTML
                        #{ans_str}
                        HTML

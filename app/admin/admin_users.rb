@@ -6,6 +6,7 @@ ActiveAdmin.register AdminUser do
     selectable_column
     id_column
     column :email
+    column :role
     column "Balanced Token" do |user|
        user.user_plan.balanced_token
     end
