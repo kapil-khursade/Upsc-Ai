@@ -14,7 +14,13 @@ class MobileAppApi::LoginController < ApplicationController
         user.save!
         user.reload
       end
-      render json: { token: user.mobile_app_auth_token }
+      render json: {
+         token: user.mobile_app_auth_token,
+         user: {
+          email: user.email,
+          profilePic: 'https://picsum.photos/200'
+         }
+       }, status: :ok
     else
       render json: { error: "Invalid email or password" }, status: :unauthorized
     end

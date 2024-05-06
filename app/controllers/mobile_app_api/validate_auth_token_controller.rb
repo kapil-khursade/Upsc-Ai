@@ -3,7 +3,6 @@ class MobileAppApi::ValidateAuthTokenController < ApplicationController
 
   def index
     auth_token = params[:auth_token]
-
     user = AdminUser.find_by_mobile_app_auth_token(auth_token)
 
     if user

@@ -25,6 +25,8 @@ Rails.application.routes.draw do
   namespace :mobile_app_api do
     resources :login, only: [:create]
     resources :validate_auth_token, only: [:index]
+    resources :user_profile_data, only: [:index]
+    resources :get_questions, only: [:index]
   end
 
   root to: "admin/dashboard#index"
