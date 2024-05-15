@@ -14,7 +14,7 @@ class MobileAppApi::GetQuestionsController < ApplicationController
   end
 
   def questions_arr
-    get_question_based_on_paper.order(:created_at).map{|ques| {
+    get_question_based_on_paper.order(created_at: :desc).map{|ques| {
       question: ques.question,
       paper: ques.paper.name,
       keywords: ques.keyword.pluck(:keyword),

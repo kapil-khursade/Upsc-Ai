@@ -27,6 +27,7 @@ Rails.application.routes.draw do
     resources :validate_auth_token, only: [:index]
     resources :user_profile_data, only: [:index]
     resources :get_questions, only: [:index]
+    resources :create_question, only: [:create]
   end
 
   root to: "admin/dashboard#index"

@@ -18,13 +18,13 @@ class GetAnswerJob
     if @answer["answer"].present? && @answer["usage"].present?
       create_answer_entry
       #marking previous error solved
-      @prev_error.update_all({status: 2})
+      @prev_error.update({status: 2}) if @prev_error.present?
       # puts "Creating Answer"
       @question.update({answer_generation_status: 0})
     else
       # puts "Error Created"
       # puts @answer["error"]
-      @prev_error.update_all({status: 3})
+      @prev_error.update({status: 3}) if @prev_error.present?
       create_answer_error_entry
       @question.update({answer_generation_status: 2})
     end
@@ -36,7 +36,7 @@ class GetAnswerJob
         status: 0,
         message: @answer["error"].try(:gsub,"\u0000", ''),
         querry_string: @answer["jsonAsString"].try(:gsub, "\u0000", ''),
-        try_number: @prev_error.count,
+        try_number: @prev_error.present? ? (prev_error.try_number + 1) : 1,
         error_date_time: DateTime.now
       })
 
