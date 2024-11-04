@@ -2,7 +2,7 @@ class GetAnswerJob
   include Sidekiq::Job
   def perform(question_id)
     @question = Question.find(question_id)
-    @prev_error = @question.answer_error.order(:error_date_time).last
+    @prev_error = @question.answer_error.order(:try_number).last
     perform_get_answer_job
   end
 
@@ -36,7 +36,7 @@ class GetAnswerJob
         status: 0,
         message: @answer["error"].try(:gsub,"\u0000", ''),
         querry_string: @answer["jsonAsString"].try(:gsub, "\u0000", ''),
-        try_number: @prev_error.present? ? (prev_error.try_number + 1) : 1,
+        try_number: @prev_error.present? ? (@prev_error.try_number + 1) : 1,
         error_date_time: DateTime.now
       })
 
