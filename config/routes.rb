@@ -30,6 +30,8 @@ Rails.application.routes.draw do
     resources :create_question, only: [:create]
   end
 
+  resources :fetch_data, only: [:index]
+
   root to: "admin/dashboard#index"
 
 end

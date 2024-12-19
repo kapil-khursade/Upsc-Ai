@@ -30,4 +30,50 @@ ActiveAdmin.register AdminUser do
     end
     f.actions
   end
+
+  show do
+    attributes_table do
+      row :id
+      row :email
+      row :role
+      row :created_at
+      row :progress do
+        content_tag(:div, id: "progress-container") do
+          content_tag(:div, "", id: "progress-bar", style: "width:0%; background:green; height: 10x;")
+        end
+      end
+    end
+
+    div id: "progress-script" do
+      script do
+        raw %Q(
+          function fetchProgress() {
+            var progressBar = document.getElementById('progress-bar');
+            $.ajax({
+              url: "/fetch_data?id=#{resource.id}",
+              method: "GET",
+              dataType: "json",
+              success: function(data) {
+                 progressBar.style.width = data[0] + '%';
+                 progressBar.innerText = data[0] + '%';
+                 progressBar.style.color = 'white';
+                  if (data[0] != 100) {
+                    setTimeout(fetchProgress, 1000); // Poll every second
+                  }
+              },
+              error: function() {
+                progressBar.style.width = '100%';
+                progressBar.style.color = 'white';
+                progressBar.style.background = 'red';
+                progressBar.innerText = 'Error fetching progress';
+              }
+            });
+          }
+
+          fetchProgress(); // Initialize progress update
+        )
+      end
+    end
+  end
+
 end

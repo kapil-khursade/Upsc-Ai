@@ -13,9 +13,18 @@ class AdminUser < ApplicationRecord
 
   after_create :set_up_the_admin_user
   before_create :generate_auth_token
+  after_initialize :set_default_progress
 
    enum role: [:admin, :user]
 
+   def set_default_progress
+     self.progress ||= 0
+   end
+
+   def update_progress!
+     self.progress = [progress + rand(5..20), 100].min
+     save!
+   end
 
 
    def generate_mobile_auth_token
