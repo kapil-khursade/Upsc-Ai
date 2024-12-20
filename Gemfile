@@ -35,6 +35,7 @@ gem 'razorpay'
 
 group :development, :test do
   gem "byebug", platforms: [:mri, :mingw, :x64_mingw]
+  gem 'rspec-rails'
 end
 
 group :development do
@@ -46,8 +47,7 @@ end
 
 group :test do
   gem "capybara", ">= 3.26"
-  gem "selenium-webdriver", ">= 4.0.0.rc1"
-  gem "webdrivers"
+  gem 'webdrivers', '~> 5.3.0', require: false
 end
 
 gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
