@@ -31,6 +31,7 @@ gem 'font-awesome-rails'
 # gem 'arctic_admin'
 gem 'sidekiq'
 gem 'razorpay'
+gem 'jwt'
 
 
 group :development, :test do
@@ -51,3 +52,6 @@ group :test do
 end
 
 gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+gem "graphql", "~> 2.4"
+gem "graphiql-rails", group: :development

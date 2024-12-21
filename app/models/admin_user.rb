@@ -17,6 +17,12 @@ class AdminUser < ApplicationRecord
 
    enum role: [:admin, :user]
 
+   def generate_jwt
+    payload = { user_id: id, exp: 24.hours.from_now.to_i }
+    secret_key = Rails.application.credentials.secret_key_base
+    JWT.encode(payload, secret_key, 'HS256')
+   end
+
    def set_default_progress
      self.progress ||= 0
    end
